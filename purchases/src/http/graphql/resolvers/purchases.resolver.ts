@@ -1,5 +1,12 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { CustomersService } from '../../../services/customers.service';
 import { ProductsService } from '../../../services/products.service';
 import { PurchasesService } from '../../../services/purchases.service';
@@ -30,7 +37,10 @@ export class PurchasesResolver {
 
   @Mutation(() => Purchase)
   @UseGuards(AuthorizationGuard)
-  async createPurchase(@Args('data') data: CreatePurchaseInput, @CurrentUser() user: AuthUser) {
+  async createPurchase(
+    @Args('data') data: CreatePurchaseInput,
+    @CurrentUser() user: AuthUser,
+  ) {
     let customer = await this.customerService.getCustomerByAuthUserId(user.sub);
 
     if (!customer) {
@@ -41,7 +51,7 @@ export class PurchasesResolver {
 
     return this.purchasesService.createPurchase({
       customerId: customer.id,
-      productId: data.productId
+      productId: data.productId,
     });
   }
 }
