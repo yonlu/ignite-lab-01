@@ -7,5 +7,5 @@ export class Student {
   id: string;
 
   @Field(() => [Enrollment])
-  enrollmments: Enrollment[];
+  enrollments: Enrollment[];
 }
